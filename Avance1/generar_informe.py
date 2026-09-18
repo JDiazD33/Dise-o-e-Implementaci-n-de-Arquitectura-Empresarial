@@ -590,6 +590,20 @@ figura(doc, 4, "Diagrama de actividades del proceso de pedido en línea "
                "con delivery",
        "fig4_actividades_online.png", ancho_cm=12.0)
 
+parrafo(doc,
+        "El modelado del negocio desarrollado en este avance corresponde a "
+        "la categoría de arquitectura de negocio, una de las cuatro "
+        "categorías en las que se estructura la arquitectura empresarial "
+        "junto con la arquitectura de datos, de aplicaciones y "
+        "tecnológica (Estrada Hernández, s.f.). Esta categoría se basa en "
+        "definir los planes del negocio, la organización de los procesos "
+        "del negocio y la gobernanza, y se modela mediante casos de uso "
+        "del negocio, diagramas de actividades, objetos y clases del "
+        "negocio y el modelo del dominio, que son precisamente los "
+        "artefactos elaborados en el presente informe. De este modo, el "
+        "avance sienta las bases para que, en la siguiente unidad, las "
+        "categorías de datos, aplicaciones y tecnológica se construyan "
+        "sobre los requerimientos aquí especificados.")
 doc.add_page_break()
 
 # ===============================================================
@@ -618,15 +632,27 @@ parrafo(doc,
 
 titulo2(doc, "3.2. Diagrama de Contexto")
 parrafo(doc,
-        "El diagrama de contexto es una vista de alto nivel que permite "
-        "delimitar el sistema y sus interacciones con los actores "
-        "externos, mostrando el flujo de información entre el sistema y "
-        "su entorno. En la Figura 5 se observa que el sistema central se "
-        "comunica con seis tipos de usuarios (cliente, mozo, chef, "
-        "cajero, repartidor y administrador) y con dos sistemas externos: "
-        "la pasarela de pago, encargada de validar y registrar los pagos "
-        "electrónicos, y el portal de proveedores, que recibe las órdenes "
-        "de compra de insumos.")
+        "El diagrama de contexto es una representación gráfica de alto "
+        "nivel que permite visualizar el sistema como una única entidad y "
+        "mostrar su relación con los elementos externos que interactúan "
+        "con él. El sistema completo se representa como un solo proceso, "
+        "sin mostrar sus procesos internos, mientras que las personas, "
+        "programas u organizaciones que interactúan con él se representan "
+        "como entidades externas, ubicadas más allá de las fronteras del "
+        "sistema. Los movimientos de información entre ambos se "
+        "denominan flujos de datos.")
+parrafo(doc,
+        "Este diagrama resulta especialmente importante porque permite "
+        "establecer una visión inicial del sistema antes de analizar sus "
+        "funcionalidades internas: identifica a los actores y entidades "
+        "externas, determina los principales flujos de información, "
+        "delimita el alcance del sistema y sirve como punto de partida "
+        "para el análisis detallado de requerimientos. En la Figura 5 se "
+        "observa que el sistema de gestión de pedidos se comunica con "
+        "seis tipos de usuarios (cliente, mozo, chef, cajero, repartidor "
+        "y administrador) y con dos sistemas externos: la pasarela de "
+        "pago, encargada de validar y registrar los pagos electrónicos, "
+        "y los proveedores, que reciben las órdenes de compra de insumos.")
 figura(doc, 5, "Diagrama de contexto del sistema de gestión de pedidos",
        "fig5_diagrama_contexto.png", ancho_cm=15.5)
 
@@ -883,12 +909,16 @@ parrafo(doc,
         "necesidades del negocio, los requerimientos funcionales, los "
         "casos de uso y los componentes del sistema constituye una "
         "práctica fundamental de la gestión de requerimientos (CMMI "
-        "Institute, 2023). Esta documentación servirá como insumo "
-        "directo para la fase de arquitectura empresarial basada en "
-        "TOGAF, que se desarrollará en la siguiente unidad del curso, "
-        "pues define de manera clara qué procesos y funcionalidades "
-        "deberán ser soportados por la arquitectura futura de la "
-        "organización.")
+        "Institute, 2023). Asimismo, los artefactos elaborados —casos de "
+        "uso del negocio, diagramas de actividades y modelo de dominio— "
+        "corresponden a la categoría de arquitectura de negocio, base "
+        "sobre la cual se construirán las arquitecturas de datos, de "
+        "aplicaciones y tecnológica (Estrada Hernández, s.f.). Esta "
+        "documentación servirá como insumo directo para la fase de "
+        "arquitectura empresarial basada en TOGAF, que se desarrollará en "
+        "la siguiente unidad del curso, pues define de manera clara qué "
+        "procesos y funcionalidades deberán ser soportados por la "
+        "arquitectura futura de la organización.")
 parrafo(doc,
         "Finalmente, el equipo reconoce que la gestión de sus "
         "requerimientos se ubica en el nivel 2 (REQM) del modelo CMMI y "
@@ -911,6 +941,9 @@ referencias = [
     "de modelado 2.0 (2.ª ed.). Addison Wesley.",
     "CMMI Institute. (2023). CMMI V3.0: Capability Maturity Model "
     "Integration. ISACA.",
+    "Estrada Hernández, J. A. (s.f.). Modelo para la gestión de "
+    "tecnología de información y comunicación en la gestión empresarial. "
+    "Editorial Universitaria.",
     "ISO/IEC/IEEE. (2018). ISO/IEC/IEEE 29148:2018 Systems and software "
     "engineering—Life cycle processes—Requirements engineering. "
     "International Organization for Standardization.",

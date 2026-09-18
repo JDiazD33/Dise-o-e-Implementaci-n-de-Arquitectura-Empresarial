@@ -393,81 +393,106 @@ def actividades_online():
 
 
 # ===============================================================
-# FIGURA 5 - Diagrama de contexto
+# FIGURA 5 - Diagrama de contexto (estilo DFD: proceso unico,
+# entidades externas y flujos de datos) - segun S06
 # ===============================================================
 def diagrama_contexto():
-    fig, ax = plt.subplots(figsize=(11.5, 7.6))
-    ax.set_xlim(0, 16)
-    ax.set_ylim(0, 10.5)
+    import numpy as np
+    fig, ax = plt.subplots(figsize=(13, 8.8))
+    ax.set_xlim(0, 18)
+    ax.set_ylim(0, 12.4)
     ax.axis("off")
 
-    # Sistema central
-    ax.add_patch(FancyBboxPatch((5.4, 3.6), 5.2, 3.3,
-                                boxstyle="round,pad=0.2",
-                                fc=AZUL, ec=AZUL, lw=1.8, zorder=2))
-    ax.text(8.0, 5.9, "Sistema de Gestión", ha="center", va="center",
-            fontsize=11, fontweight="bold", color="white", zorder=3)
-    ax.text(8.0, 5.15, "de Pedidos", ha="center", va="center",
-            fontsize=11, fontweight="bold", color="white", zorder=3)
-    ax.text(8.0, 4.35, "Fogón Andino S.A.C.", ha="center", va="center",
-            fontsize=9, color="#DCE6F2", zorder=3)
+    ax.text(9.0, 12.1, "Diagrama de Contexto - Sistema de Gestión de Pedidos",
+            ha="center", va="top", fontsize=11, fontweight="bold", color=AZUL)
 
-    # Actores externos y flujos: (x, y, nombre, lado, etiquetas flechas)
-    actores = [
-        (1.9, 8.6, "Cliente", "izq", ["Consultas,\npedidos, pagos"],
-         ["Estado del pedido,\nconfirmación"]),
-        (1.9, 5.2, "Mozo", "izq", ["Pedidos en\nmesa"], ["Estado,\ncuenta"]),
-        (1.9, 1.6, "Repartidor", "izq", ["Pedidos por\nentregar"],
-         ["Asignación de\nruta"]),
-        (14.1, 8.6, "Chef / Cocina", "der", ["Pedidos por\npreparar"],
-         ["Estado de\npreparación"]),
-        (14.1, 5.2, "Cajero", "der", ["Cobros,\nboletas"], ["Comprobantes"]),
-        (14.1, 1.6, "Administrador", "der", ["Configuración,\nreportes"],
-         ["Indicadores\nde gestión"]),
+    cx, cy, r = 9.0, 6.0, 1.75
+
+    # Entidades externas: (angulo, nombre, flujo hacia el sistema,
+    #                       flujo desde el sistema)
+    ents = [
+        (128, "Cliente", "Consultas,\npedidos y pagos",
+         "Estado del pedido\ny confirmación"),
+        (180, "Mozo", "Pedidos de\nmesa", "Cuenta y estado\ndel pedido"),
+        (232, "Repartidor", "Confirmación de\nentrega",
+         "Asignación de\npedidos"),
+        (52,  "Chef / Cocina", "Estado de\npreparación",
+         "Pedidos por\npreparar"),
+        (0,   "Cajero", "Comprobantes\nemitidos", "Cobros y\nboletas"),
+        (308, "Administrador", "Configuración\ny consultas",
+         "Indicadores\nde gestión"),
+        (90,  "Proveedores", "Insumos y\nfacturas",
+         "Órdenes de\ncompra"),
+        (270, "Pasarela de Pago", "Resultado de la\ntransacción",
+         "Solicitud de\npago"),
     ]
-    for x, y, nombre, lado, entrada, salida in actores:
-        dibujar_actor(ax, x, y, nombre)
-        if lado == "izq":
-            x_sys = 5.4
-            x_act = x + 0.45
-        else:
-            x_sys = 10.6
-            x_act = x - 0.45
-        # flecha hacia el sistema
-        ax.annotate("", xy=(x_sys, y + 0.28), xytext=(x_act, y + 0.28),
-                    arrowprops=dict(arrowstyle="-|>", color=AZUL, lw=1.4),
-                    zorder=1)
-        ax.text((x_act + x_sys) / 2, y + 0.52, entrada[0], ha="center",
-                va="bottom", fontsize=7.0, color="#333333")
-        # flecha desde el sistema
-        ax.annotate("", xy=(x_act, y - 0.05), xytext=(x_sys, y - 0.05),
-                    arrowprops=dict(arrowstyle="-|>", color=VERDE, lw=1.4),
-                    zorder=1)
-        ax.text((x_act + x_sys) / 2, y - 0.30, salida[0], ha="center",
-                va="top", fontsize=7.0, color="#333333")
 
-    # Sistemas externos (cajas)
-    ax.add_patch(FancyBboxPatch((6.5, 0.2), 3.0, 0.85,
-                                boxstyle="round,pad=0.08",
-                                fc="#FDEBD0", ec=NARANJA, lw=1.3, zorder=3))
-    ax.text(8.0, 0.62, "Pasarela de Pago\n(sistema externo)",
-            ha="center", va="center", fontsize=7.5, zorder=4)
-    ax.annotate("", xy=(8.0, 1.05), xytext=(8.0, 3.6),
-                arrowprops=dict(arrowstyle="-|>", color=NARANJA, lw=1.4),
-                zorder=1)
-    ax.text(8.6, 2.3, "Validar y registrar\npagos", fontsize=7.0,
-            color="#333333", ha="left")
+    # --- Dibujar flechas primero (quedan debajo de cajas y circulo) ---
+    for ang, nombre, flujo_in, flujo_out in ents:
+        rad = np.radians(ang)
+        dist = 4.9
+        ex, ey = cx + dist * np.cos(rad), cy + dist * np.sin(rad)
+        e = np.array([np.cos(rad), np.sin(rad)])      # centro -> entidad
+        p = np.array([-e[1], e[0]])                   # perpendicular
+        circ_in = np.array([cx, cy]) + e * (r + 0.18)
+        pos = np.array([ex, ey])
+        # Flecha entidad -> sistema (offset +p)
+        A = pos + 0.22 * p
+        B = circ_in + 0.22 * p
+        ax.annotate("", xy=(B[0], B[1]), xytext=(A[0], A[1]),
+                    arrowprops=dict(arrowstyle="-|>", color=AZUL, lw=1.5),
+                    zorder=2)
+        mx, my = (A[0] + B[0]) / 2, (A[1] + B[1]) / 2
+        ax.text(mx + 0.80 * p[0], my + 0.80 * p[1], flujo_in, ha="center",
+                va="center", fontsize=7.0, color="#333333", zorder=2,
+                bbox=dict(boxstyle="round,pad=0.18", fc="white",
+                          ec="#BBBBBB", lw=0.6))
+        # Flecha sistema -> entidad (offset -p)
+        C = circ_in - 0.22 * p
+        D = pos - 0.22 * p
+        ax.annotate("", xy=(D[0], D[1]), xytext=(C[0], C[1]),
+                    arrowprops=dict(arrowstyle="-|>", color=VERDE, lw=1.5),
+                    zorder=2)
+        mx2, my2 = (C[0] + D[0]) / 2, (C[1] + D[1]) / 2
+        ax.text(mx2 - 0.80 * p[0], my2 - 0.80 * p[1], flujo_out, ha="center",
+                va="center", fontsize=7.0, color="#333333", zorder=2,
+                bbox=dict(boxstyle="round,pad=0.18", fc="white",
+                          ec="#BBBBBB", lw=0.6))
 
-    ax.add_patch(FancyBboxPatch((6.5, 9.35), 3.0, 0.85,
-                                boxstyle="round,pad=0.08",
-                                fc="#FDEBD0", ec=NARANJA, lw=1.3, zorder=3))
-    ax.text(8.0, 9.77, "Proveedores\n(sistema externo)", ha="center",
-            va="center", fontsize=7.5, zorder=4)
-    ax.annotate("", xy=(8.0, 6.9), xytext=(8.0, 9.35),
-                arrowprops=dict(arrowstyle="-|>", color=NARANJA, lw=1.4),
-                zorder=1)
-    ax.text(8.6, 8.2, "Órdenes de\ncompra", fontsize=7.0,
-            color="#333333", ha="left")
+    # --- Proceso central (sistema como unico proceso) ---
+    ax.add_patch(Circle((cx, cy), r, fc="#DCE6F2", ec=AZUL, lw=2.2, zorder=4))
+    ax.text(cx, cy + 0.85, "0", fontsize=15, fontweight="bold",
+            ha="center", va="center", zorder=5)
+    ax.text(cx, cy + 0.12, "Sistema de Gestión", ha="center", va="center",
+            fontsize=10.5, fontweight="bold", zorder=5)
+    ax.text(cx, cy - 0.48, "de Pedidos", ha="center", va="center",
+            fontsize=10.5, fontweight="bold", zorder=5)
+    ax.text(cx, cy - 1.15, "Fogón Andino S.A.C.", ha="center", va="center",
+            fontsize=8.0, style="italic", color="#333333", zorder=5)
+
+    # --- Entidades externas (rectangulos) por encima de las flechas ---
+    for ang, nombre, fi, fo in ents:
+        rad = np.radians(ang)
+        dist = 4.9
+        ex, ey = cx + dist * np.cos(rad), cy + dist * np.sin(rad)
+        ax.add_patch(FancyBboxPatch((ex - 1.35, ey - 0.52), 2.7, 1.04,
+                                    boxstyle="round,pad=0.08",
+                                    fc="white", ec=GRIS_BORDE, lw=1.3,
+                                    zorder=5))
+        ax.text(ex, ey, nombre, ha="center", va="center", fontsize=8.6,
+                fontweight="bold", zorder=6)
+
+    # Leyenda
+    ax.plot([12.6, 13.3], [11.35, 11.35], color=AZUL, lw=1.5)
+    ax.annotate("", xy=(13.3, 11.35), xytext=(12.6, 11.35),
+                arrowprops=dict(arrowstyle="-|>", color=AZUL, lw=1.5))
+    ax.text(13.45, 11.35, "Flujo hacia el sistema", fontsize=7.2,
+            va="center", ha="left")
+    ax.plot([12.6, 13.3], [10.75, 10.75], color=VERDE, lw=1.5)
+    ax.annotate("", xy=(13.3, 10.75), xytext=(12.6, 10.75),
+                arrowprops=dict(arrowstyle="-|>", color=VERDE, lw=1.5))
+    ax.text(13.45, 10.75, "Flujo desde el sistema", fontsize=7.2,
+            va="center", ha="left")
 
     guardar(fig, "fig5_diagrama_contexto.png")
 

@@ -292,8 +292,11 @@ diapositiva_imagen("7. Actividades: Pedido en Línea con Delivery",
 # ---------------------------------------------------------------
 diapositiva_imagen("8. Diagrama de Contexto del Sistema",
                    "fig5_diagrama_contexto.png",
-                   nota="Sistema central con 6 tipos de usuario y 2 "
-                        "sistemas externos: pasarela de pago y proveedores.")
+                   nota="Sistema representado como un único proceso, "
+                        "rodeado de entidades externas (cliente, mozo, "
+                        "chef, cajero, repartidor, administrador, "
+                        "pasarela de pago y proveedores) con sus flujos "
+                        "de datos.")
 
 # ---------------------------------------------------------------
 # 11. Requerimientos funcionales
